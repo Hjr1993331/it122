@@ -1,12 +1,20 @@
 {
-  "name": "week2",
+  "name": "it122",
   "version": "1.0.0",
-  "description": "for data.js",
-  "main": "data.js",
+  "description": "JavaScript",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hjr1993331/it122.git"
+  },
   "type": "module",
-  "author": "hijiri",
-  "license": "ISC"
+  "author": "Hijiri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hjr1993331/it122/issues"
+  },
+  "homepage": "https://github.com/Hjr1993331/it122#readme"
 }
