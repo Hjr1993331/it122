@@ -1,19 +1,17 @@
-console.log('Welcome to IT122')
+console.log('Hello')
+import { getAll, getItem } from './data.js';
+import http from 'http';
 
-// import http from 'http';
 
-const http = require("http");
-http.createServer((req,res) => {
-    // res.writeHead(200, {'Content-Type': 'text/plain'});
-    // res.end('Aloha world');
-//}).listen(process.env.PORT || 3000);
-
+http.createServer (
+    (req, res) => {
+        
     var path = req.url.toLowerCase();
 
 
         if (path === '/') {
             res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.end('Home Page');
+            res.end(JSON.stringify(getAll()));
         }
         
         if (path === '/about') {
