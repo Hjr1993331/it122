@@ -14,6 +14,7 @@ const getItem = (name) => {
     return movies.find((movie) => {
         return movie.name === name;
     });
+    
 }
 
 export { getAll, getItem }
