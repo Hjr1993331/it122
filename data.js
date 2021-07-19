@@ -3,7 +3,7 @@ let movies = [
     { name : "X-Men", year : 2011, type : ["drama", "mutants", "love"], genre : "action"},
     { name : "Matlix", year : 2001, type : ["science", "computer", "hallucination"], genre : "action" },
     { name : "Matlix2", year : 2005, type : ["science", "computer", "hallucination"], genre : "action" },
-    { name : "Matlix3", year : 2007, type : ["science", "computer", "hallucination"], genre : "action"  }
+    { name : "Matlix3", year : 2007, type : ["science", "computer", "hallucination"], genre : "action"  },
 ];
 
 const getAll = () => {

@@ -1,0 +1,10 @@
+<h2>Home</h2>
+<form method="POST" action="/detail">
+<input type="text" name="name" placeholder="name" required maxlength="100">
+</form>
+
+<hr>
+<h3>Movies</h3>
+{{#each movie}}
+<li><a href="/detail?title={{name}}">{{name}}</a></li>
+{{/each}}

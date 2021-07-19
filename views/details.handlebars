@@ -1,0 +1,15 @@
+<html>
+    <body>
+        <a href="/">Home</a>
+
+        {{#if result}}
+    <li>Name: {{ result.name }}</li>
+    <li>Year: {{ result.year }}</li>
+    <li>Type: {{ result.type }}</li>
+    
+{{else}}
+    <h2>{{name}} not found</h2>
+{{/if}}
+    </body>
+</html>
+
