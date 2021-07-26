@@ -1,10 +1,10 @@
 <h2>Home</h2>
 <form method="POST" action="/detail">
-<input type="text" name="name" placeholder="name" required maxlength="100">
+<input type="text" name="name" placeholder="movie's name" length="100">
 </form>
 
 <hr>
 <h3>Movies</h3>
-{{#each movie}}
-<li><a href="/detail?title={{name}}">{{name}}</a></li>
+{{#each movies}}
+<li><a href="/detail?name={{name}}">{{name}}</a></li>
 {{/each}}

@@ -1,58 +1,48 @@
-'use strict';
+"use strict"
 
-
-import { getAll, getItem } from './data.js';
-import http from 'http';
-import { parse } from "querystring";
-
-// console.log(getItem("Avengers"))
-
-// import * as movies from "./data.js";
+import * as movie from "./data.js";
 import express from 'express';
 import handlebars from "express-handlebars"
 
-
-console.log(getItem('Avengers'))
-console.log(getAll())
 const app = express();
-app.set('port', process.env.PORT || 3000);
-app.use(express.static('./public')); 
-app.use(express.urlencoded({ extended: true }));
+
+app.set("port", process.env.PORT || 3000);
+app.use(express.static('./main'));
+app.use(express.urlencoded());
 app.use(express.json());
+
 app.engine('handlebars', handlebars({defaultLayout: "main.handlebars"}));
 app.set("view engine", "handlebars");
 
-// send static file as response
+//home page
 app.get('/', (req,res) => {
     res.render('home', {movies: movie.getAll()});
 });
 
-   
-
-// send plain text response
+//about page
 app.get('/about', (req,res) => {
     res.type('text/plain');
     res.send('About page');
 });
 
+//detail
 app.get('/detail', (req,res) => {
     console.log(req.query)
     let result = movie.getItem(req.query.name);
     res.render("details", {
         name: req.query.name, 
-        result: result
+        result:result
         }
     );
 });
 
-// handle POST
 app.post('/detail', (req,res) => {
     console.log(req.body)
     let found = movie.getItem(req.body.name);
     res.render("details", {name: req.body.name, result: found, movies: movie.getAll()});
 });
 
-// define 404 handler
+// 404 error
 app.use((req,res) => {
     res.type('text/plain'); 
     res.status(404);
@@ -62,4 +52,3 @@ app.use((req,res) => {
 app.listen(app.get('port'), () => {
     console.log('Express started');    
 });
-
