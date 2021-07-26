@@ -6,7 +6,9 @@
     <li>Name: {{ result.name }}</li>
     <li>Year: {{ result.year }}</li>
     <li>Type: {{ result.type }}</li>
-    
+    <p>
+    <a href="/delete?name={{result.name}}">Delete</a>
+    </p>
 {{else}}
     <h2>{{name}} not found</h2>
 {{/if}}
