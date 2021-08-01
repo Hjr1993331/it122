@@ -58,7 +58,71 @@ app.get('/delete', (req,res) => {
             res.render('delete', {name: req.query.name, deleted: result.result.n !== 0, total: total } );    
         });
     });
-});    
+});   
+
+
+
+//create an API route to get all items
+app.get('/api/movies', (req, res, next) => {
+    return Movie.find({}).lean()
+      .then((movies) => {
+          res.json(movies);
+      })
+      .catch(err => { return res.status(500).send('Error occurred: database error.')} );
+  });
+  
+  //create API route to get a single item
+  app.get('/api/movies/:model', (req, res) => {
+    const model = req.params.model; 
+    Movie.findOne({model: model}).lean()
+      .then((movies) => {
+        if (movies == null) {
+          return res.status(400).send('Error occurred: model not found');
+        }
+        else {
+          res.json(movies);
+        }
+      })
+      .catch(err => { return res.status(500).send('Error occurred: database error.')} );
+  });
+  
+  //create an API route to delete an item
+  app.get('/api/delete/:model', (req, res) => {
+    const model = req.params.model; 
+    Movie.findOneAndDelete({model: model}).lean()
+      .then((movies) => {
+        if (movies == null) {
+          return res.status(400).send('Error occurred: model not found');
+        }
+        else {
+          res.json(movies);
+        }
+      })
+      .catch(err => { return res.status(500).send('Error occurred: database error.')} );
+  }); 
+  
+  //create an API route to add/update an item (post request)  
+  app.post('/api/movies/:model', (req, res) => {
+    if(!req.body){
+      return res.status(400).send('Request body is missing');
+    }
+    const model = req.params.model;
+    Movie.findOneAndUpdate({model: model}, req.body, {upsert:true} ).lean()
+      .then((movies) => {
+        res.json(movies);
+      })
+      .catch(err => { return res.status(500).send('Error occurred: database error.')} );
+  }); 
+
+
+
+
+
+
+
+
+
+
 
 // 404 error
 app.use((req,res) => {
