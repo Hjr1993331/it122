@@ -24,7 +24,7 @@ http.createServer (
 
         if (path === '/detail') {
             res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.end(JSON.stringify(getItem('Avengers')));
+            res.end(JSON.stringify(getItem()));
             }
         
         else {
