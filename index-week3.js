@@ -114,7 +114,21 @@ app.get('/api/movies', (req, res, next) => {
       .catch(err => { return res.status(500).send('Error occurred: database error.')} );
   }); 
 
-
+  // to home_page 
+  app.get('/home', (req, res, next) => {
+    return Movie.find({}).lean()
+    .then((movies) => {
+        res.render('home_page', {movies: JSON.stringify(movies)});
+    })
+    .catch(err => next(err));
+  });
+  
+   // view about page
+   app.get('/about', (req, res) => {
+    const aboutMe = `My name is Hijiri Maruo. I'm looking for a new job.`;
+    res.type('text/plain');
+    res.send(`${aboutMe}`);
+   });
 
 
 
