@@ -115,6 +115,7 @@ app.get('/api/movies', (req, res, next) => {
   }); 
 
   // to home_page 
+
   app.get('/home', (req, res, next) => {
     return Movie.find({}).lean()
     .then((movies) => {
@@ -124,6 +125,7 @@ app.get('/api/movies', (req, res, next) => {
   });
   
    // view about page
+   
    app.get('/about', (req, res) => {
     const aboutMe = `My name is Hijiri Maruo. I'm looking for a new job.`;
     res.type('text/plain');
