@@ -27,10 +27,10 @@ app.get('/', (req, res, next) => {
   });
 
 //about page
-app.get('/about', (req,res) => {
-    res.type('text/plain');
-    res.send('About page');
-});
+// app.get('/about', (req,res) => {
+//     res.type('text/plain');
+//     res.send('About page');
+// });
 
 //detail
 app.get('/detail', (req,res,next) => {
@@ -117,7 +117,7 @@ app.get('/api/movies', (req, res, next) => {
   // to home_page 
 
   app.get('/home', (req, res, next) => {
-    return Movie.find({}).lean()
+    Movie.find({}).lean()
     .then((movies) => {
         res.render('home_page', {movies: JSON.stringify(movies)});
     })
@@ -131,13 +131,6 @@ app.get('/api/movies', (req, res, next) => {
     res.type('text/plain');
     res.send(`${aboutMe}`);
    });
-
-
-
-
-
-
-
 
 
 // 404 error

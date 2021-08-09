@@ -1,14 +1,39 @@
-<h2>Home</h2>
-<form method="POST" action="/detail">
-<input type="text" name="name" placeholder="movie's name" length="100">
-</form>
+<html>
+<head>
+    <title>Movie App Demo</title>
+
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+
+    <!-- Don't use this in production: -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
 
 <div id="root"></div>
-
 <script type="text/babel">
-const movies = {{{movies}}}
 
-console.log(movies)
+    const movies = {{{ movies }}}
+    console.log(movies)
 
+    // define other components
+    
+    const App = () => {
+      return <div>
+      <h2>Movie List</h2>
+      <ul>
+          <li>Avengers</li>
+          <li>X-Men</li>
+          <li>Matlix</li>
+          <li>Matlix2</li>
+          <li>Matlix3</li>
+      </ul>
+      
+      </div>;
+    }
 
+    ReactDOM.render(<App />, document.getElementById('root'));
 </script>
+</body>
+</html>
