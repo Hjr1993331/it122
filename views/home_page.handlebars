@@ -10,30 +10,82 @@
 </head>
 
 <body>
-
 <div id="root"></div>
 <script type="text/babel">
+
+const MovieList = (props) => {
+      return <div>
+        <h3>Here is a list of movies.</h3>
+        <ul>
+          {props.items.map(item => <li onClick={props.clickHandler} key={item.name}>{item.name}</li>)}
+        </ul>
+      </div>
+    }
 
     const movies = {{{ movies }}}
     console.log(movies)
 
     // define other components
     
-    const App = () => {
+    const MovieDetail = (props) => {
       return <div>
-      <h2>Movie List</h2>
-      <ul>
-          <li>Avengers</li>
-          <li>X-Men</li>
-          <li>Matlix</li>
-          <li>Matlix2</li>
-          <li>Matlix3</li>
-      </ul>
-      
-      </div>;
+        <h2>Details about {props.item.name} :</h2>
+        <form>
+            <p>Name: <input type="text" name="name"   onChange={props.changeHandler} value={props.item.name || ""}></input></p>
+            <p>Year: <input type="text" name="year"   onChange={props.changeHandler} value={props.item.year || ""}></input></p>
+            <p>Type: <input type="text" name="type" onChange={props.changeHandler} value={props.item.type || ""}></input></p>
+            <p>Genre: <input type="text" name="genre" onChange={props.changeHandler} value={props.item.genre || ""}></input></p>
+        </form>
+        <button onClick={props.onClear}>Clear</button>
+        
+    </div>
     }
 
-    ReactDOM.render(<App />, document.getElementById('root'));
+    class MovieApp extends React.Component{
+      constructor(props){
+          super(props);
+          // Set initial state using data from server application
+          this.state = {
+            items: {{{ movies }}}, 
+            currentMovie: {}, // current selected item
+          };
+          // bind application state to click handler
+          
+          this.onClear    = this.onClear.bind(this);
+         
+       }
+
+
+
+     selectItem(event) {
+        //console.log(event.target.innerText);
+        let selected = event.target.innerText;
+        let newMovie = this.state.items.find((item) => {
+            return item.name == selected;
+        })
+        this.setState({currentMovie: newMovie});
+      }
+     
+      
+      // handle clear form
+      onClear(){
+        this.setState({currentMovie: {} });
+      }
+      
+      render() {
+        // render app UI elements
+        return (
+          <div>
+            <h1>Welcome to the Movie App Demo </h1>
+            <MovieList items={this.state.items} clickHandler={this.selectItem} />
+            <MovieDetail item={this.state.currentMovie} changeHandler={this.onChange} onSave={this.onSave} onClear={this.onClear} onDelete={this.onDelete}/>
+          </div>
+          );
+      }
+    }
+
+     ReactDOM.render(<MovieApp />, document.getElementById('root'));
+    
 </script>
 </body>
 </html>
