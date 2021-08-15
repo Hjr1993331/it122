@@ -21,7 +21,7 @@ app.set("view engine", "handlebars");
 app.get('/', (req, res, next) => {
     return Movie.find({}).lean()
       .then((movies) => {
-          res.render('home', { movies });
+        res.render('home_page', {movies: JSON.stringify(movies)});
       })
       .catch(err => next(err));
   });
@@ -101,19 +101,6 @@ app.get('/api/movies', (req, res, next) => {
       .catch(err => { return res.status(500).send('Error occurred: database error.')} );
   }); 
   
-  //create an API route to add/update an item (post request)  
-  app.post('/api/movies/:model', (req, res) => {
-    if(!req.body){
-      return res.status(400).send('Request body is missing');
-    }
-    const model = req.params.model;
-    Movie.findOneAndUpdate({model: model}, req.body, {upsert:true} ).lean()
-      .then((movies) => {
-        res.json(movies);
-      })
-      .catch(err => { return res.status(500).send('Error occurred: database error.')} );
-  }); 
-
   // to home_page 
 
   app.get('/home', (req, res, next) => {
