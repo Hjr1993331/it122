@@ -13,6 +13,7 @@
 <div id="root"></div>
 <script type="text/babel">
 
+
 const MovieList = (props) => {
       return <div>
         <h3>Here is a list of movies.</h3>
@@ -31,13 +32,17 @@ const MovieList = (props) => {
       return <div>
         <h2>Details about {props.item.name} :</h2>
         <form>
+          
+        
+
             <p>Name: <input type="text" name="name"   onChange={props.changeHandler} value={props.item.name || ""}></input></p>
             <p>Year: <input type="text" name="year"   onChange={props.changeHandler} value={props.item.year || ""}></input></p>
             <p>Type: <input type="text" name="type" onChange={props.changeHandler} value={props.item.type || ""}></input></p>
             <p>Genre: <input type="text" name="genre" onChange={props.changeHandler} value={props.item.genre || ""}></input></p>
         </form>
+        <button onClick={props.onSave} >Save</button>
         <button onClick={props.onClear}>Clear</button>
-        
+        <button onClick={props.onDelete} >Delete</button>
     </div>
     }
 
@@ -50,9 +55,14 @@ const MovieList = (props) => {
             currentMovie: {}, // current selected item
           };
           // bind application state to click handler
+        
           
+
+          this.selectItem = this.selectItem.bind(this);
+          this.onChange   = this.onChange.bind(this);
+          this.onSave     = this.onSave.bind(this);
           this.onClear    = this.onClear.bind(this);
-         
+          this.onDelete   = this.onDelete.bind(this);
        }
 
 
@@ -65,13 +75,57 @@ const MovieList = (props) => {
         })
         this.setState({currentMovie: newMovie});
       }
-     
+      // handle any changes made in the details form field
+      onChange(event){
+        var newItem = this.state.currentMovie;
+        //console.log(event.target.name);
+        newItem[event.target.name] = event.target.value;
+        this.setState({currenMovie: newItem});
+      }
+      
+      // handle form save data
+      onSave(){
+          let newItem = this.state.currentMovie;
+          //console.log(newItem);
+          fetch('/api/movies/' + newItem.name, {
+              method: "POST",
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify(newItem)
+          })
+          .then((res) => {
+              return res.json();
+          })
+          .then((items) => {  
+              //console.log(items);
+              const newList = this.state.items;
+              if(!newItem._id){ //if item is new add to list, display new list, and clear the form
+                newList.push(newItem);
+                this.setState({ items: newList, currentMovie: {} });
+              }        
+              else{ //if item was updated, just clear the form 
+                  this.setState({currentMovie: {} });
+              }       
+          })
+          .catch(err => console.log(err))
+      }
       
       // handle clear form
       onClear(){
         this.setState({currentMovie: {} });
       }
-      
+      // handle delete form data
+      onDelete(){
+        let delItem = this.state.currentMovie;
+        fetch("api/delete/"+ delItem.name)
+        .then((res) => {
+            return res.json();
+        })
+        .then((items) => { //update the list of movies by removing delete item
+            const newList = this.state.items.filter(items => items.name !== delItem.name)
+            this.setState({ items: newList, currentMovie: {} }); 
+        })
+        .catch(err => console.log(err))
+      }
       render() {
         // render app UI elements
         return (
